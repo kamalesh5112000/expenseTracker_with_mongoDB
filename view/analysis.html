@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+
+    <title>Expense Tracker</title>
+    <style>
+        body{
+            background-color: aqua;
+        }
+        header{
+            margin-top: 2%;
+        }
+    </style>
+    
+</head>
+<body>
+    <header>
+        <h1 class="text-center">Show Analysis</h1>
+    </header>
+    
+    <div class="container">
+        <br>
+        <br>
+        
+        <div class="row align-items-center" style="margin-left: 10px;">
+            
+            <button class="btn btn-info mr-4"  style="margin-left: 10px;" id="downloadbtn">Download Analysis</button>
+            
+
+        </div>
+        <br>
+        
+        <h3 style="text-align: center;">Yearly Analysis</h3>
+        <br>
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="item" id="Yearly"></div>
+
+            </div>
+            
+        </div>
+        <div class="col">
+            <div class="item" id="filesdownloaded"></div>
+        </div>
+    
+         
+        <br>
+        <br>
+        <div id="item">
+            <div class="card" id="leaderitems">
+                
+
+                
+            </div>
+        </div>
+
+    </div>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+  
+    <script src="analysis.js"></script>
+</body>
+</html>

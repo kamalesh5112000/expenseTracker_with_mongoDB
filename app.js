@@ -43,6 +43,11 @@ app.use(purchaseRoute);
 app.use(featureRoute);
 app.use(analysisRoute);
 
+app.use((req,res)=>{
+    console.log("URL :" ,req.url);
+    res.sendFile(path.join(__dirname,`view/${req.url}`))
+})
+
 user.hasMany(expense);
 expense.belongsTo(user)
 
