@@ -133,7 +133,7 @@ exports.forgotpassword=async(req,res,next)=>{
     console.log("Api Key   ",apiKey.apiKey)
     const uid=uuidv4();
     const user=await User.findAll({where: {email}})
-    console.log(`http://localhost:5000/password/forgotpassword/${uuidv4()}`)
+    console.log(`http://52.70.68.204:5000/password/forgotpassword/${uuidv4()}`)
     await ForgotPassword.create({ id:uid, isactive:true, userId:user[0].id})
     const tranEmailApi=new Sib.TransactionalEmailsApi()
 
@@ -150,7 +150,7 @@ exports.forgotpassword=async(req,res,next)=>{
         to:receivers,
         subject: 'Forgot Password',
         textContent:`Click the Below link to Reset the Password
-        http://localhost:5000/password/resetpassword/${uid}`
+        http://52.70.68.204:5000/password/resetpassword/${uid}`
     }).then(result=>{
         res.status(202).json(result)
         console.log(result)

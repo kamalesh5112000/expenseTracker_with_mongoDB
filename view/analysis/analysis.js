@@ -5,8 +5,8 @@ var fdarea=document.getElementById('filesdownloaded')
 async function display(){
 
     const token = localStorage.getItem('token');
-    const res = await axios.get('http://LOCALHOST:5000/analysis',{headers:{"Authorization":token}});
-    const fres= await axios.get('http://LOCALHOST:5000/filesdownloaded',{headers:{"Authorization":token}});
+    const res = await axios.get('http://52.70.68.204:5000/analysis',{headers:{"Authorization":token}});
+    const fres= await axios.get('http://52.70.68.204:5000/filesdownloaded',{headers:{"Authorization":token}});
     
     console.log(res.data)
     tableCreate(res.data)
@@ -124,7 +124,7 @@ downloadbtn.addEventListener('click',downloadfile);
 
 async function downloadfile(){
     const token = localStorage.getItem('token');
-    const res = await axios.get('http://LOCALHOST:5000/download',{headers:{"Authorization":token}});
+    const res = await axios.get('http://52.70.68.204:5000/download',{headers:{"Authorization":token}});
     var a= document.createElement("a");
     a.href=res.data.fileURL;
     a.download='myexpense.csv';
