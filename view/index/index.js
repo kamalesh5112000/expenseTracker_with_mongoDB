@@ -13,7 +13,7 @@ async function submitForm(e){
         email: email.value,
         password:password.value
     }
-    const res = await axios.post('http://3.88.203.108:5000/',myobj)
+    const res = await axios.post('http://3.88.203.108:443/',myobj)
     console.log(res.status,res)
     if (res.status==202){
         emailcheck.innerHTML="Email Already Exits"

@@ -21,6 +21,7 @@ const filesDownloaded=require('./model/filesdownloaded');
 
 const app = express();
 
+
 const userRoutes=require('./routes/userRoutes');
 const expenseRoute=require('./routes/expenseroute');
 const purchaseRoute=require('./routes/purchaseroute');
@@ -29,7 +30,14 @@ const analysisRoute=require('./routes/analysisroute');
 
 const accessLogStream = fs.createWriteStream(path.join(__dirname,'access.log'),{flag:'a'})
 
-app.use(helmet());
+app.use(
+    helmet.contentSecurityPolicy({
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "cdnjs.cloudflare.com"],
+      },
+    })
+  );
 app.use(compression());
 app.use(morgan('combined',{stream:accessLogStream}));
 
@@ -62,5 +70,5 @@ filesDownloaded.belongsTo(user);
 
 sequelize.sync().then(result=>{
     //console.log(result);
-    app.listen(process.env.PORT || 5000);
+    app.listen(process.env.PORT || 443);
 }).catch(err=>console.log(err));
