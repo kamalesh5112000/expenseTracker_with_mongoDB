@@ -3,10 +3,8 @@ const express= require('express');
 const dotenv=require('dotenv');
 dotenv.config();
 const cors = require('cors');
-const helmet = require('helmet');
-const compression=require('compression');
-const morgan = require('morgan');
-const fs=require('fs');
+
+
 const path = require('path');
 const bodyParser=require('body-parser');
 const sequelize=require('./database/database');
@@ -28,18 +26,7 @@ const purchaseRoute=require('./routes/purchaseroute');
 const featureRoute=require('./routes/premiumFeatureroute');
 const analysisRoute=require('./routes/analysisroute');
 
-const accessLogStream = fs.createWriteStream(path.join(__dirname,'access.log'),{flag:'a'})
 
-app.use(
-    helmet.contentSecurityPolicy({
-      directives: {
-        defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "cdnjs.cloudflare.com"],
-      },
-    })
-  );
-app.use(compression());
-app.use(morgan('combined',{stream:accessLogStream}));
 
 app.use(bodyParser.json({ extended: false }));
 app.use(cors());
@@ -70,5 +57,5 @@ filesDownloaded.belongsTo(user);
 
 sequelize.sync().then(result=>{
     //console.log(result);
-    app.listen(process.env.PORT || 443);
+    app.listen(process.env.PORT || 5000);
 }).catch(err=>console.log(err));
