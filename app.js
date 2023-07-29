@@ -70,5 +70,5 @@ filesDownloaded.belongsTo(user);
 
 sequelize.sync().then(result=>{
     //console.log(result);
-    app.listen(process.env.PORT || 5000);
+    app.listen(process.env.PORT || 443);
 }).catch(err=>console.log(err));
