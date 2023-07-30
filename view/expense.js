@@ -18,7 +18,6 @@ document.getElementById('changelimit').addEventListener('click',setpagelimit);
 function setpagelimit(e){
     e.preventDefault();
     
-    console.log(pagelimitelement.value)
     localStorage.setItem("pagelimit",pagelimitelement.value)
     display()
 }
