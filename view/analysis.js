@@ -103,11 +103,6 @@ function filestableCreate(obj) {
             }
             
             tr.appendChild(td)
-
-            
-        
-            
-            
             
         }
         

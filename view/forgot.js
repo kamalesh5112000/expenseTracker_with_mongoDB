@@ -3,6 +3,7 @@ var email=document.getElementById('email');
 
 forgotform.addEventListener('submit',submitForm);
 
+
 async function submitForm(e){
     e.preventDefault();
     console.log(email.value)

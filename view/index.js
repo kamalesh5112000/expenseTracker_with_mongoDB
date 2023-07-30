@@ -21,7 +21,6 @@ async function submitForm(e){
         alert(res.data.message)
         window.location.replace("./login.html");
     }
-    // console.log(myobj)
     // const res = await axios.get('http://52.70.68.204:5000/')
     // console.log(res)
     // if (res.data.length==0){

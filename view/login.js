@@ -23,8 +23,7 @@ async function submitForm(e){
     }else if(res.status==201){
         passwordcheck.innerHTML="Password is Incorrect"
     }
-    else{
-        
+    else{  
         alert(res.data.message)
         
         console.log(res.data.token)

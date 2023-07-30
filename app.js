@@ -27,7 +27,6 @@ const featureRoute=require('./routes/premiumFeatureroute');
 const analysisRoute=require('./routes/analysisroute');
 
 
-
 app.use(bodyParser.json({ extended: false }));
 app.use(cors());
 

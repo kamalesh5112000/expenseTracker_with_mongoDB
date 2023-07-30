@@ -73,11 +73,7 @@ async function submitForm(e){
     if(document.getElementById('leaderboarditems')){
         showLeaderBoardapi();
     }
-    
-    
-
-    
-    
+  
 
 }
 async function display(){
