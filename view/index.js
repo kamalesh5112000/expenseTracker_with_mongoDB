@@ -13,7 +13,7 @@ async function submitForm(e){
         email: email.value,
         password:password.value
     }
-    const res = await axios.post('http://52.70.68.204:5000/',myobj)
+    const res = await axios.post('http://localhost:5000/',myobj)
     console.log(res.status,res)
     if (res.status==202){
         emailcheck.innerHTML="Email Already Exits"
@@ -21,10 +21,10 @@ async function submitForm(e){
         alert(res.data.message)
         window.location.replace("./login.html");
     }
-    // const res = await axios.get('http://52.70.68.204:5000/')
+    // const res = await axios.get('http://localhost:5000/')
     // console.log(res)
     // if (res.data.length==0){
-    //     const res = await axios.post('http://52.70.68.204:5000/',myobj)
+    //     const res = await axios.post('http://localhost:5000/',myobj)
     // }else{
     //     for(var i=0;i<res.data.length;i++){
     //         if(res.data[i].email==email.value){
@@ -34,13 +34,13 @@ async function submitForm(e){
     //     }
     // }
     // if(flag==false){
-    //     const res = await axios.post('http://52.70.68.204:5000/',myobj)
+    //     const res = await axios.post('http://localhost:5000/',myobj)
 
     // }else{
     //     emailcheck.innerHTML="Email Already Exits"
     // }
 
-    //const res = await axios.post('http://52.70.68.204:5000/',myobj)
+    //const res = await axios.post('http://localhost:5000/',myobj)
 
 }
 

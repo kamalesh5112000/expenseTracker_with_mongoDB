@@ -1,8 +1,8 @@
-const Expense = require('../model/expense');
+const Expense = require('../models/expense');
 const sequelize=require('../database/database');
 const UserServices=require('../services/userservices')
 const S3Services=require('../services/S3services')
-const filesDownloaded=require('../model/filesdownloaded');
+const filesDownloaded=require('../models/filesdownloaded');
 
 exports.showdata=async(req,res)=>{
     const data=await Expense.findAll({

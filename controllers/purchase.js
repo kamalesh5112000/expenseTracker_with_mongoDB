@@ -1,6 +1,7 @@
 const express = require('express');
 const Razorpay = require('razorpay');
-const Order=require('../model/orders');
+const Order=require('../models/orders');
+const User=require('../models/user');
 
 
 exports.purchasePremium=async (req,res)=>{
@@ -21,8 +22,9 @@ exports.purchasePremium=async (req,res)=>{
                 console.log(err)
                 throw new Error(JSON.stringify(err))
             }
-            req.user.createOrder({orderid:order.id,status:'PENDING'}
-            ).then(()=>{
+            const ord= new Order({orderid:order.id,status:'PENDING'});
+            ord.save()
+            .then(()=>{
                 return res.status(201).json({order,key_id:rzp.key_id})
             })
         })
@@ -36,9 +38,8 @@ exports.updateTransactionStatus=async (req,res)=>{
         const {payment_id,order_id}=req.body;
         console.log(req.body);
         console.log(payment_id,order_id)
-        const order=await Order.findOne({where:{orderid:order_id}})
-        const promise1= order.update({paymentid: payment_id ,status:'SUCCESSFUL'})
-        const promise2= req.user.update({isPremium:true})
+        const promise1= Order.updateOne({orderid:order_id},{paymentid: payment_id ,status:'SUCCESSFUL'})
+        const promise2= User.updateOne({_id:req.user._id},{isPremium:true})
         Promise.all([promise1,promise2]).then(()=>{
             return res.status(202).json({sucess:true,message:"Transaction Successfull"})
         }).catch(err=>console.log(err))

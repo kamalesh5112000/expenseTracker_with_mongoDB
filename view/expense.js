@@ -25,13 +25,13 @@ function setpagelimit(e){
 document.getElementById('rzp-button1').onclick=async function buyPremium(e){
     e.preventDefault();
     const token = localStorage.getItem('token');
-    const res=await axios.get('http://52.70.68.204:5000/purchase/premium',{headers:{"Authorization":token}});
+    const res=await axios.get('http://localhost:5000/purchase/premium',{headers:{"Authorization":token}});
     console.log(res)
     var options={
         "key":res.data.key_id,
         "order_id":res.data.order.id,
         "handler":async function(response){
-            await axios.post('http://52.70.68.204:5000/purchase/updatetransaction',{
+            await axios.post('http://localhost:5000/purchase/updatetransaction',{
                 order_id:options.order_id,
                 payment_id:response.razorpay_payment_id
             },{headers:{"Authorization":token}})
@@ -65,8 +65,8 @@ async function submitForm(e){
         catecgory:cat.value
     }
     const token = localStorage.getItem('token');
-    const res = await axios.post('http://52.70.68.204:5000/addexpense',myobj,{headers:{"Authorization":token}});
-    //const res = await axios.post('http://52.70.68.204:5000/expense',myobj)
+    const res = await axios.post('http://localhost:5000/addexpense',myobj,{headers:{"Authorization":token}});
+    //const res = await axios.post('http://localhost:5000/expense',myobj)
     
     display();
     if(document.getElementById('leaderboarditems')){
@@ -82,7 +82,7 @@ async function display(){
     const token = localStorage.getItem('token');
     const pagelimit= localStorage.getItem('pagelimit')
     pagelimitelement.value=pagelimit
-    const res = await axios.post(`http://52.70.68.204:5000/expense?page=${page}`,{pagelimit:pagelimit},{headers:{"Authorization":token}});
+    const res = await axios.post(`http://localhost:5000/expense?page=${page}`,{pagelimit:pagelimit},{headers:{"Authorization":token}});
     console.log(res.data)
     if(res.data.userdata){
         premiumbtn.style.display="none";
@@ -142,7 +142,7 @@ function showpagination(obj){
 async function getexpense(page){
     const token = localStorage.getItem('token');
     const pagelimit= localStorage.getItem('pagelimit')
-    const res = await axios.post(`http://52.70.68.204:5000/expense?page=${page}`,{pagelimit:pagelimit},{headers:{"Authorization":token}});
+    const res = await axios.post(`http://localhost:5000/expense?page=${page}`,{pagelimit:pagelimit},{headers:{"Authorization":token}});
     showpagination(res.data.pag)
     showData(res.data.data)
     // for(var i=0;i<res.data.data.length;i++){
@@ -154,8 +154,10 @@ async function getexpense(page){
 }
 function showData(obj){
     newitem.innerHTML=""
+    console.log("length",obj.length)
     for(var i=0;i<obj.length;i++){
-        iid=obj[i].id
+        console.log(obj)
+        iid=obj[i]._id
         
         var li=document.createElement('li');
         li.className='list-group-item';
@@ -207,7 +209,7 @@ async function showLeaderBoardapi(){
     ulleader.innerText="";
 
     const token = localStorage.getItem('token');
-        const res = await axios.get('http://52.70.68.204:5000/showLeaderBoard',{headers:{"Authorization":token}});
+        const res = await axios.get('http://localhost:5000/showLeaderBoard',{headers:{"Authorization":token}});
         console.log(res)
         for(var i=0;i<res.data.leaderboard.length;i++){
             if(!res.data.leaderboard[i].total_cost){
@@ -255,7 +257,7 @@ function delitem(e){
             newitem.removeChild(li)
             console.log(itemaount,itemcat,itemdes,iid)
             const token = localStorage.getItem('token');
-            axios.delete(`http://52.70.68.204:5000/expense/${iid}`,{headers:{"Authorization":token}})
+            axios.delete(`http://localhost:5000/expense/${iid}`,{headers:{"Authorization":token}})
             .then(()=>{
                 newitem.innerHTML='';
                 display();

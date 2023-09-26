@@ -1,6 +1,6 @@
 const { response } = require('express');
-const User = require('../model/user');
-const ForgotPassword = require('../model/forgotPasswordRequest');
+const User = require('../models/user');
+const ForgotPassword = require('../models/forgotPasswordRequest');
 const bcrypt=require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { v4: uuidv4 } = require('uuid');
@@ -22,7 +22,8 @@ async function emailValidate(email,password){
     let emailflag=false;
     let passwordflag=false;
     let userobj=false;
-    await User.findAll({where: {email}}).then(user=>{
+    await User.find({'email':email}).then(user=>{
+        console.log(user)
         
         if(user.length>0){
             emailflag=user[0].email
@@ -51,50 +52,25 @@ exports.addUser=async (req,res,next)=>{
         const saltrounds=10;
         bcrypt.hash(password,saltrounds,async(err,hash)=>{
             console.log(err)
-            await User.create({
-                name:nam,
-                email:email,
-                password:hash
-        
+            const user= new User({name:nam,email:email,password:hash,isPremium:false,totalcost:0});
+            user.save().then(result=>{
+                res.status(203).json({message:'User Created Successfully'})
             })
-            res.status(203).json({message:'User Created Successfully'})
+            
 
         })
 
     }
     
 
-    // const saltrounds=10;
-    // bcrypt.hash(password,saltrounds,async(err,hash)=>{
-    //     console.log(err)
-    //     await User.create({
-    //         name:nam,
-    //         email:email,
-    //         password:hash
     
-    //     })
-    //     res.status(201).json({message:'User Created Successfully'})
-
-    // })
-
-    
-    
-    // User.create({
-    //     name:nam,
-    //     email:email,
-    //     password:password
-
-    // }).then(result=>{
-    //     res.json(result)
-    //     console.log('Created Product');
-    // }).catch(err=>console.log(err));
 }
 
 exports.loginUser=async (req,res,next)=>{
     const email = req.body.email;
     const password = req.body.password;
     const [emailflag,passwordflag,userobj]=await emailValidate(email,password)
-    console.log(emailflag,passwordflag)
+    console.log(emailflag,passwordflag,userobj[0].name)
     if(emailflag){
         bcrypt.compare(password,passwordflag,(err,response)=>{
             if(!err){
@@ -118,7 +94,7 @@ exports.loginUser=async (req,res,next)=>{
 
 
 exports.getUsers = (req, res, next) => {
-    User.findAll()
+    User.find()
     .then(users=>{
       res.json(users)
       //res.json({data:'Hello From Kamalesh'})
@@ -133,7 +109,7 @@ exports.forgotpassword=async(req,res,next)=>{
     console.log("Api Key   ",apiKey.apiKey)
     const uid=uuidv4();
     const user=await User.findAll({where: {email}})
-    console.log(`http://52.70.68.204:5000/password/forgotpassword/${uuidv4()}`)
+    console.log(`http://localhost:5000/password/forgotpassword/${uuidv4()}`)
     await ForgotPassword.create({ id:uid, isactive:true, userId:user[0].id})
     const tranEmailApi=new Sib.TransactionalEmailsApi()
 
@@ -150,7 +126,7 @@ exports.forgotpassword=async(req,res,next)=>{
         to:receivers,
         subject: 'Forgot Password',
         textContent:`Click the Below link to Reset the Password
-        http://52.70.68.204:5000/password/resetpassword/${uid}`
+        http://localhost:5000/password/resetpassword/${uid}`
     }).then(result=>{
         res.status(202).json(result)
         console.log(result)
@@ -163,10 +139,11 @@ exports.forgotpassword=async(req,res,next)=>{
 
 }
 exports.resetPassword=async(req,res,next)=>{
-     const uid=req.params.ID; 
+    try{
+        const uid=req.params.ID; 
      console.log(uid)
      const userdata=await ForgotPassword.findAll({where:{id:uid}})
-     console.log("User ID:",userdata[0].id)
+     console.log("User ID:",userdata)
      if(userdata[0].isactive){
         res.status(200).send(
             `<!DOCTYPE html>
@@ -290,6 +267,12 @@ exports.resetPassword=async(req,res,next)=>{
      }
      ///password/updatepassword/${userdata[0].userId}
       res.end()
+
+    }catch(err){
+        console.log(err)
+        res.status(400).json(err)
+    }
+     
 }
 
 exports.upgradePassword=async(req,res,next)=>{
